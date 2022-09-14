@@ -1,30 +1,38 @@
 #include <stdio.h>
-
+#define LARGEST 10000000000
 /**
- * main - program execution starts here
- * Description: this is the main function
- * Return: an integer to signify success or failure
+ * main - main block
+ * Description: Find and print the first 98 fib numbers starting with 1 and 2.
+ * Numbers should be coma and space separated.
+ * Return: 0
  */
 int main(void)
 {
-	long double prevfibonacci = 1;
-	long double fibonacci = 2;
-	int counter = 3;
+	unsigned long int fr1 = 0, bk1 = 1, fr2 = 0, bk2 = 2;
+	unsigned long int hold1, hold2, hold3;
+	int count;
 
-	long double swap;
-
-	printf("%.0Lf, %.0Lf, ", prevfibonacci, fibonacci);
-	while (counter <= 98)
+	printf("%lu, %lu, ", bk1, bk2);
+	for (count = 2; count < 98; count++)
 	{
-		swap = fibonacci;
-		fibonacci = fibonacci + prevfibonacci;
-		if (counter != 98)
-			printf("%.0Lf, ", fibonacci);
+		if (bk1 + bk2 > LARGEST || fr2 > 0 || fr1 > 0)
+		{
+			hold1 = (bk1 + bk2) / LARGEST;
+			hold2 = (bk1 + bk2) % LARGEST;
+			hold3 = fr1 + fr2 + hold1;
+			fr1 = fr2, fr2 = hold3;
+			bk1 = bk2, bk2 = hold2;
+			printf("%lu%010lu", fr2, bk2);
+		}
 		else
-			printf("%.0Lf", fibonacci);
-		prevfibonacci = swap;
-		counter++;
+		{
+			hold2 = bk1 + bk2;
+			bk1 = bk2, bk2 = hold2;
+			printf("%lu", bk2);
+		}
+		if (count != 97)
+			printf(", ");
 	}
-	putchar('\n');
+	printf("\n");
 	return (0);
 }
